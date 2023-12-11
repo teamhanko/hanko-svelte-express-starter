@@ -17,7 +17,7 @@ Get the API URL from [Hanko console](https://cloud.hanko.io/) and add it to `.en
 ### Run Frontend
 
 ```bash
-cd vue-frontend
+cd svelte-frontend
 ```
 
 ```bash
