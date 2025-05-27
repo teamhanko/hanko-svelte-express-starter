@@ -1,13 +1,14 @@
-<script lang="ts">
+<script>
+  import "./hanko-style.css"
+
   import { onMount } from "svelte";
-  import { navigate } from "svelte-routing";
+	import { navigate } from 'svelte-routing';
   import { register } from "@teamhanko/hanko-elements";
 
   const hankoApi = import.meta.env.VITE_HANKO_API_URL;
 
   const redirectAfterLogin = () => {
-    // successfully logged in, redirect to a page in your application
-    navigate("/dashboard");
+    navigate("/dashboard");//Navigate to dashboard when logging in
   };
 
   onMount(async () => {
@@ -17,4 +18,4 @@
   });
 </script>
 
-<hanko-auth on:onAuthFlowCompleted={redirectAfterLogin} />
+<hanko-auth on:onSessionCreated={redirectAfterLogin} />

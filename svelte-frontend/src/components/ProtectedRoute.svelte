@@ -1,20 +1,14 @@
 <script>
-    import { onMount } from 'svelte';
-    import { navigate } from 'svelte-routing';
-    import { user, checkAuthentication } from '../stores/user';
-  
-    let isAuthenticated = false;
-  
-    user.subscribe(value => {
-      isAuthenticated = value;
-    });
-  
+    import { onMount } from "svelte";
+    import { navigate } from "svelte-routing";
+
+    import { validateSession } from "../lib/validateSession";
+
     onMount(async () => {
-      await checkAuthentication();
-      if (!isAuthenticated) {
-        navigate('/login'); 
-      }
-    });
-  </script>
-  
-  <slot />
+        if(!await validateSession()){
+            navigate("/");
+        }
+    })
+</script>
+
+<slot/>

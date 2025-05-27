@@ -1,34 +1,49 @@
-const jose = require("jose");
-const dotenv = require("dotenv").config();
-
-const JWKS = jose.createRemoteJWKSet(
-  new URL(`${process.env.HANKO_API_URL}/.well-known/jwks.json`)
-);
+const hankoApiUrl = process.env.HANKO_API_URL || '';
 
 async function validateToken(req, res, next) {
-  let token = null;
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.split(" ")[0] === "Bearer"
-  ) {
-    token = req.headers.authorization.split(" ")[1];
-  } else if (req.cookies && req.cookies.hanko) {
-    token = req.cookies.hanko;
-  }
-  if (token === null || token.length === 0) {
-    res.status(401).send("Unauthorized");
-    return;
-  }
-  let authError = false;
-  await jose.jwtVerify(token, JWKS).catch((err) => {
-    authError = true;
-    console.log(err);
-  });
-  if (authError) {
-    res.status(401).send("Authentication Token not valid");
-    return;
-  }
-  next();
+    let token = null;
+    if ( req.headers.authorization && req.headers.authorization.split(" ")[0] === "Bearer"){
+        token = req.headers.authorization.split('')[1];
+    }
+    else if(req.cookies && req.cookies.hanko){
+        token = req.cookies.hanko;
+    }
+
+    if(token === null || token.lenth === 0){
+        res.status(401).send('Unauthorized');
+        console.log('could not find a token to validate');
+        return;
+    }
+
+    let authError = false; 
+
+    const validationOptions = { 
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: `{"session_token":"${token}"}`
+    }
+
+    const validationResponse = await fetch(hankoApiUrl + '/sessions/validate', validationOptions); 
+
+    if(!validationResponse.ok){
+        authError = true;
+    }
+    else{
+        const validationData = await validationResponse.json();
+        if(!validationData.is_valid){
+            authError = true;
+        }
+    }
+
+    if(authError){
+        res.status(401).send('Unauthorized');
+        console.log('your token was not valid');
+        return;
+    }
+
+    console.log('validated');
+
+    next();
 }
 
 module.exports = validateToken;

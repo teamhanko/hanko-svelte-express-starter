@@ -1,14 +1,16 @@
-<script lang="ts">
-  import { onMount } from "svelte";
-  import { register } from "@teamhanko/hanko-elements";
+<script>
+    import "./hanko-style.css"
 
-  const hankoApi = import.meta.env.VITE_HANKO_API_URL;
+    import { register } from "@teamhanko/hanko-elements";
+    import { onMount } from "svelte";
 
-  onMount(async () => {
-    register(hankoApi).catch((error) => {
-      // handle error
+    const hankoApi = import.meta.env.VITE_HANKO_API_URL;
+  
+    onMount(async () => {
+      register(hankoApi).catch((error) => {
+        // handle error
+      });
     });
-  });
 </script>
-
+  
 <hanko-profile />

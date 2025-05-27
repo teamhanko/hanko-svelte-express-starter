@@ -1,5 +1,9 @@
-<script lang="ts">
-  import { navigate } from "svelte-routing";
+<script>
+    import HankoAuth from "../components/HankoAuth.svelte";
+    import StarterInfo from "../starter components/starterInfo.svelte";
 </script>
 
-<button on:click={() => navigate('/login')}>Login</button>
+<div>
+    <HankoAuth/>
+    <StarterInfo/>
+</div>

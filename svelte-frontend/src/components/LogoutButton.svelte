@@ -1,17 +1,19 @@
 <script>
-  import { navigate } from "svelte-routing";
-  import { Hanko } from "@teamhanko/hanko-elements";
+    import "./hanko-style.css"
 
-  const hankoApi = import.meta.env.VITE_HANKO_API_URL;
+    import { Hanko } from "@teamhanko/hanko-elements";
+    import { navigate } from 'svelte-routing';
 
-  const hanko = new Hanko(hankoApi);
-
-  const logout = () => {
-    hanko.user.logout().catch((error) => {
-      // handle error
-    });
-    navigate("/");
-  };
-</script>
-
-<button on:click={logout}>Logout</button>
+    const hankoApi = import.meta.env.VITE_HANKO_API_URL;
+  
+    const hanko = new Hanko(hankoApi);
+    const logout = () => {
+      hanko.logout().catch((error) => {
+        //Handle Error
+        console.log("Error during logging out : " + error);
+      });
+      navigate("/");//Url to redirect to
+    };
+  </script>
+  
+  <button on:click={logout}>Sign-Out</button>

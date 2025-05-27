@@ -4,25 +4,33 @@ const dotenv = require("dotenv").config();
 const cors = require('cors');
 
 const app = new express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
+//Makes sure only the frontend can make requests
 app.use(cors({
   origin: 'http://localhost:5173', // replace with your frontend's origin
   credentials: true
 }));
+
+//two middleware functions
 app.use(cookieParser());
 app.use(express.json());
 
-app.get("/", function (req, res) {
-  res.status(200).send("<h1>Hello world</h1>");
+
+app.use(function(req, res, next) {
+    console.log('Page loaded')
+    next('route')
 });
 
+app.get("/", function (req, res) {
+    res.status(200).send("<h1>Hello World!</h1>");
+});
 
-app.use("/api/hello", require("./routes/helloRoute"));
-app.use("/api/protected", require("./routes/protectedRoute"));
+app.use("/api", require("./routes/api"));
+app.use("/validate", require("./routes/validate"));
 
 
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
-
+    console.log(`Server running on port ${port}`);
+  });
+  
