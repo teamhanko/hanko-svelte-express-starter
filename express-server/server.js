@@ -4,7 +4,7 @@ const dotenv = require("dotenv").config();
 const cors = require('cors');
 
 const app = new express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 
 //Makes sure only the frontend can make requests
 app.use(cors({
