@@ -1,5 +1,5 @@
-<script>
-	import LogoutButton from './../components/LogoutButton.svelte';
+<script >
+	  import LogoutButton from './../components/LogoutButton.svelte';
     import { onMount } from 'svelte';
 
     import { useLocation } from 'svelte-routing';
@@ -15,16 +15,13 @@
   
     async function fetchUserData() {
       const hanko = new Hanko(hankoApi);
-      // @ts-ignore
-      // getUser currently returns the wrong value (email instead of emails)
-      // For future hanko versions use .emails[0].address
-      const email = (await hanko.getUser()).email;
+      const email = (await hanko.getUser())?.emails?.[0]?.address;
       return { email: email };
     }
   
     onMount(async () => {
       const data = await fetchUserData();
-      email = data.email;
+      email = data.email ?? "UNDEFINED";
       
       pathname = $location.pathname;
     });

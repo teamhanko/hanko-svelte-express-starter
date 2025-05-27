@@ -1,5 +1,4 @@
 <script>
-  	import LogoutButton from './../components/LogoutButton.svelte';
     import { onMount } from 'svelte';
 
     const hankoApi = import.meta.env.VITE_HANKO_API_URL;
@@ -12,22 +11,16 @@
   
     async function fetchUserData() {
       const hanko = new Hanko(hankoApi);
-      // @ts-ignore
-      // getUser currently returns the wrong value (email instead of emails)
-      // For future hanko versions use .emails[0].address
-      const email = (await hanko.getUser()).email;
-      // @ts-ignore
-      // getUser currently returns the wrong value (id instead of user_id)
-      // For future hanko versions use .user_id
-      const id = (await hanko.getUser()).id;
+      const email = (await hanko.getUser())?.emails?.[0]?.address;
+      const id = (await hanko.getUser()).user_id;
 
       return { email: email, id: id };
     }
   
     onMount(async () => {
       const data = await fetchUserData();
-      email = data.email;
-      id = data.id;
+      email = data.email ?? "UNDEFINED";
+      id = data.id ?? "UNDEFINED";
     });
 </script>
   

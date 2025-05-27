@@ -1,4 +1,4 @@
-const backendUrl = import.meta.env.VITE_HANKO_API_URL;
+const backendUrl = import.meta.env.BACKEND_URL;
 
 export async function validateSession() {
   try {

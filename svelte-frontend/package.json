@@ -18,7 +18,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@teamhanko/hanko-elements": "^2.0.0",
+    "@teamhanko/hanko-elements": "^2.1.0",
     "svelte-routing": "^2.13.0"
   }
 }
